@@ -104,9 +104,9 @@
     </LinearLayout>
 
 
-    <!--<android.support.v7.widget.RecyclerView-->
-    <!--android:id="@+id/recycler_list"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:paddingTop="50dp"></android.support.v7.widget.RecyclerView>-->
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/content_weather_reports"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="50dp"></android.support.v7.widget.RecyclerView>
 </LinearLayout>
