@@ -52,7 +52,7 @@ public class WeatherActivity extends AppCompatActivity implements GoogleApiClien
     private final int PERMISSION_LOCATION = 111;
     private ArrayList<DailyWeatherReport> weatherReportsList = new ArrayList<>();
     //14.560729, 121.026213
-
+    private WeatherAdapter mAdapter;
     private ImageView weatherIcon;
     private ImageView weatherIconMini;
     private TextView weatherDate;
@@ -61,19 +61,19 @@ public class WeatherActivity extends AppCompatActivity implements GoogleApiClien
     private TextView cityCountry;
     private TextView weatherDescription;
 
-    WeatherAdapter mAdapter;
-
 
     @Override
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_weather);
-        mGoogleApiClient = new GoogleApiClient.Builder(this).addApi(LocationServices.API).enableAutoManage(this, this).addConnectionCallbacks(this).addOnConnectionFailedListener(this).build();
+
         init();
     }
 
     private void init() {
+        mGoogleApiClient = new GoogleApiClient.Builder(this).addApi(LocationServices.API).enableAutoManage(this, this).addConnectionCallbacks(this).addOnConnectionFailedListener(this).build();
+
         weatherIcon = (ImageView) findViewById(R.id.weatherIcon);
         weatherIconMini = (ImageView) findViewById(R.id.weatherIconMini);
         weatherDate = (TextView) findViewById(R.id.weatherDate);
@@ -83,11 +83,14 @@ public class WeatherActivity extends AppCompatActivity implements GoogleApiClien
         weatherDescription = (TextView) findViewById(R.id.weatherDescription);
 
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.content_weather_reports);
-        mAdapter = new WeatherAdapter(weatherReportsList);
 
+        mAdapter = new WeatherAdapter(weatherReportsList);
         recyclerView.setAdapter(mAdapter);
 
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getBaseContext());
+        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+
+        //        LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);
 
     }
@@ -123,7 +126,6 @@ public class WeatherActivity extends AppCompatActivity implements GoogleApiClien
                         for (int x = 0; x < 5; x++) {
                             JSONObject object = list.getJSONObject(x);
                             JSONObject main = object.getJSONObject("main");
-
                             Double currentTemp = main.getDouble("temp");
                             Double minTemp = main.getDouble("temp_min");
                             Double maxTemp = main.getDouble("temp_max");
@@ -280,7 +282,7 @@ public class WeatherActivity extends AppCompatActivity implements GoogleApiClien
 
         @Override
         public int getItemCount() {
-            return 0;
+            return mDailyWeatherReports.size();
         }
     }
 
